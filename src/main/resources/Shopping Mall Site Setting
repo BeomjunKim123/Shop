@@ -1,0 +1,110 @@
+Shopping Mall Site Setting 
+
+1. Spring Boot Starter Project 생성 
+   Spring Boot  : 3
+   Deploy Type  :gradle 
+   Java Version : JDK 17 
+   Packaging    : JAR 
+   package      : com.mysite.shop 
+   group        : com.mysite.shop 
+   name     : shop 
+   Artifact : shop 
+   
+   라이브러리 : -- lombok
+   			-- Spring Boot DevTools
+   			-- Spring web 
+ 
+ 2. 필요 라이브러리 추가 
+ 	build.gradle 에서 
+ 		dependencies {  //필요 라이브러리 추가 }  
+ 	
+ 3. application.properties 설정 
+ 
+ 4. Java 소스 파일을 적용 : 라이브러리가 모두 잘 적용되어 있어야 하고, application.properties가 설정이
+ 		잘 적용되어야 오류 없이 잘 등록이된다. 
+ 	com.shop.*     : ShopApllication.java 는 제외하고 모든 파일 복사 
+ 	
+ 5. View 페이지를 적용 : src/main/resources 
+ 	- templates : *.html (타임리프)
+ 	- static    : *.css , *.js , 이미지들 
+ 	
+
+
+
+6. H2 DB 연결 
+    
+
+
+
+
+
+
+	==============참고 : Oracle DB 연결  ============================================
+
+6. oracle 계정 생성 및 태이블 스페이스 접근 설정 
+    Host : Localhost 
+    port : 1521 
+    DB   : xe 
+    account : shop 
+    password : 1234
+
+
+계정을 생성하기 위해서 system 계정으로 접속한 쿼리에서 실행 
+  -- 1. 별도의 계정 생성
+	create user C##shop identified by 1234 ; 
+
+  -- 2. HR 계정의 권한 부여 : 
+	grant connect, resource to C##shop; 
+	
+	
+
+
+  -- 3. 테이블 스페이스를 사용할 권한 부여 , 
+       -- USERS 테이블 스페이스의 사용량을 무제한 사용할 수 있도록 권한 부여 
+	alter user C##shop quota unlimited on USERS; 
+ 
+ 
+ ========================================================
+ 
+ 
+ 
+   
+   ===================================================================
+   
+   참고 : 
+   
+    shop 프로잭트를 Local Ubuntu VM에 배포 
+
+client ===> nginx (80) ==> was (Tomcat 9494) ==> DB (docker MySQL: 3306 ) 
+
+	~/shop/*jar 
+	
+	
+	 docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=1234 mysql
+
+
+========================참고 : mysql 계정 생성 =============================================
+use mysql; 
+select * from user; 
+select host, user from user; 
+
+-- 사용자 계정 생성 
+create user user1; 
+-- 사용자 계정에 패스워드 적용 
+create user user1@localhost identified by '1234'; 
+create user user1@'%' identified by '1234'; 
+-- DataBase 생성 
+create database testDB; 
+-- DataBase 를 사용자 계정이 사용 가능 하도록 권한 부여 
+-- GRANT ALL PRIVILEGES ON DB명.테이블 TO 계정아이디@host IDENTIFIED BY '비밀번호';
+GRANT ALL PRIVILEGES ON testDB.* TO user1@localhost IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON testDB.* TO user1@'%' IDENTIFIED BY '1234';
+flush privileges; 
+=====================================================================
+
+
+웹 브라우져에서 출력되는 이미지 파일 형식 : 
+   *.jpg , *.jpeg, *.png, *.gif, *.bmp  
+   
+ =========================================================================
+   

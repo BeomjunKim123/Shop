@@ -1,0 +1,5 @@
+회원가입 : 2명
+
+update member
+set role = 'USER'
+where member_id = 2;
