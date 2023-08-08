@@ -10,6 +10,7 @@ import java.util.UUID;
 @Log
 public class FileService {			//실제 업로드된 파일을 물리적인 경로에 저장 
 
+	// 원본 업로드위치(C:\shop\item), 원본 이미지이름, 바이트 스트림(jpg)을 인풋 받아서 UUID.jpg 를 리턴 
     public String uploadFile(String uploadPath, String originalFileName, byte[] fileData) throws Exception{
        
     	
@@ -24,6 +25,8 @@ public class FileService {			//실제 업로드된 파일을 물리적인 경로
         // 반드시 예외 처리를 해야 한다. : 자신이 직접 처리 (Try Catch ) , Throws : 예외를 호출하는 쪽에서 처리하도록
         // 미문다. 
         // c:/shop/item/UUID.jpg 
+        
+        //반드시 예외를 처리 : 1. 자신이 직접 처리 (try ~catch) , 2. trows (미루는 방법) 
         FileOutputStream fos = new FileOutputStream(fileUploadFullUrl);
         fos.write(fileData);
         fos.close();

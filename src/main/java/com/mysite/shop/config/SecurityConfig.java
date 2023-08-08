@@ -30,7 +30,7 @@ public class SecurityConfig {
 		http
 		// http://localhost:9696/ 요청은 인증 없이 접근을 허용 
 		.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-				.requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+				.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
 				//shop 추가 
 				.requestMatchers(new AntPathRequestMatcher("/css/**\", \"/js/**\", \"/img/**")).permitAll()
 				.requestMatchers(new AntPathRequestMatcher("\"/members/**\", \"/item/**\", \"/images/**\"")).permitAll()
@@ -61,6 +61,10 @@ public class SecurityConfig {
 				//                             password 필드의 name = "password" 
 				.usernameParameter("email")
 				//.passwordParameter("password")
+				
+				// MemberService에서 인증 처리를 하고 있음. 
+				
+				
 				.failureUrl("/members/login/error")
 
 				.defaultSuccessUrl("/")

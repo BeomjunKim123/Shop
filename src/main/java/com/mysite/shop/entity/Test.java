@@ -2,6 +2,7 @@ package com.mysite.shop.entity;
 
 import jakarta.persistence.*;
 
+
 import com.mysite.shop.constant.Role;
 
 import lombok.Getter;

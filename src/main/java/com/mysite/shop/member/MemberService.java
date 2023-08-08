@@ -32,17 +32,19 @@ public class MemberService implements UserDetailsService {
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
     }
-    
-    //인증을 처리하는 메소드 : UserDetailsService의 선언만된 메소드를 구현 해서 생성
 
+    
+    // 인증을 처리하는 메소드  : UserDetailsService의 선언만된 메소드를 구현 해서 생성 
+    
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Member member = memberRepository.findByEmail(email);
         
+        //로그로 변수의 값을 출력 : 배포한 서버에서는 colsole 에 값을 출력 할 수 없다.
         
-        log.info("=====> : " + email);
-        log.info("=====> : " + member.getEmail()); 
+        log.info("client form :  =====> : " + email);
+        log.info("sever DB :=====> : " + member.getEmail()); 
         log.info("=====> : " + member.getRole()); 
         log.info("=====> : " + member.getRole().toString());
 

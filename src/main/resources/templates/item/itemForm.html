@@ -8,7 +8,7 @@
 
     <script th:inline="javascript">
         $(document).ready(function(){
-            var errorMessage = [[${errorMessage}]];
+            var errorMessage = /*[[${errorMessage}]]*/;
             if(errorMessage != null){
                 alert(errorMessage);
             }
@@ -60,6 +60,7 @@
         </p>
 
         <input type="hidden" th:field="*{id}">
+        	<!-- th:field ="*{id}"  <== name = "id", id = "id", value ="id" --> 
 
         <div class="form-group">
             <select th:field="*{itemSellStatus}" class="custom-select">

@@ -36,6 +36,8 @@ public class ItemController {
         return "item/itemForm";
     }
 
+    
+    //새 상품 등록 
     @PostMapping(value = "/admin/item/new")
     public String itemNew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult,
                           Model model, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList){
@@ -48,8 +50,6 @@ public class ItemController {
             model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값 입니다.");
             return "item/itemForm";
         }
-
-        
         
         // itemService 에서 File객체를 사용해서 파일을 저장시 예외 처리가 필수인데 throws로 미루었기 때문에 
         // controller 에서 throws로 미룬 예외 처리를 한다. 

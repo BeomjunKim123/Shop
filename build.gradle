@@ -5,10 +5,9 @@ plugins {
 	
 	// querydsl관련 명령어를 gradle탭에 생성해준다. (권장사항)
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10" 
-    
 }
 
-group = 'com.mysite.shop'
+group = 'com.mysite'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -64,7 +63,7 @@ dependencies {
 	//마크다운 라이브러리 추가 
 	implementation 'org.commonmark:commonmark:0.21.0'
 	
-	//modelmapper 라이브러리 
+	//modelmapper 라이브러리   : dto 필드의 값을 Entity 클래스에 매핑  
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.9'
 	
 	
@@ -101,3 +100,8 @@ configurations {
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
+
+
+
+
+

@@ -40,6 +40,7 @@ public class ItemFormDto {
     private static ModelMapper modelMapper = new ModelMapper();  
     
     //Client form 에서 넘어오는 값을 DTO에 담아서 Item Entity 클래스에 적용후 DB에 저장  
+    	//ModelMapper  : dto의 값을 Entity 클래스에 자동으로 주입하는 라이브러리 
     public Item createItem(){
         return modelMapper.map(this, Item.class);
     }
