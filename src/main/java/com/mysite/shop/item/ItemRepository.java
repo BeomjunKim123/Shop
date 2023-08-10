@@ -33,7 +33,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>,
             "%:itemDetail% order by i.price desc", nativeQuery = true)
     List<Item> findByItemDetailByNative(@Param("itemDetail") String itemDetail);
     
-    /*
+   /*
     @Query(value="Select i.item_id, i.item_nm, i.item_detail, i.price, im.img_url "
     		+ "from item i"
     		+ "      join item_img im"

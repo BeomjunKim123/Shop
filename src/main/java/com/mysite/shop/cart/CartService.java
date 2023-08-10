@@ -33,9 +33,12 @@ public class CartService {
 
     public Long addCart(CartItemDto cartItemDto, String email){
 
+    	// Option<Item> 을 담아서 처리 하는 내용을 축약 해서 처리함. 
         Item item = itemRepository.findById(cartItemDto.getItemId())
                 .orElseThrow(EntityNotFoundException::new);
-        Member member = memberRepository.findByEmail(email);
+        
+        
+        Member member = memberRepository.findByEmail(email); 
 
         //기존의 주문정보가 존재하는지 
         Cart cart = cartRepository.findByMemberId(member.getId());
@@ -45,7 +48,9 @@ public class CartService {
             cartRepository.save(cart);
         }
         
-        // 기존에 장바구니에 등록하는 제품이 cartItem 테이블에 존재하는지 확인         
+        // 기존에 장바구니에 등록하는 제품이 cartItem 테이블에 존재하는지 확인
+        	//장바구니에 하지 않으면 insert 
+        	//장바구니에 존재 하면 갯수만 update 
         CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
         if(savedCartItem != null){   //기존에 제품이 장바구니에 존재하면 count (갯수)만 update

@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
+	//JPQL : 메소드로 쿼리를 처리하 언어 
+	//ORM : 메소드를 SQL 쿼리로 매핑 : JPA <=== 하이버네이트 
+	//select * from CartItem where cart_id =? and item_id = ? 
     CartItem findByCartIdAndItemId(Long cartId, Long itemId);
 
     
