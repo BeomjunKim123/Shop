@@ -108,6 +108,8 @@ public class CartService {
         cartItemRepository.delete(cartItem);
     }
 
+    // 장바구니의 정보를 가지고와서 Order , OrderItem에 저장후, 
+    // 장바구니의 값을 제거 
     public Long orderCartItem(List<CartOrderDto> cartOrderDtoList, String email){
     	
     	//List 선언 

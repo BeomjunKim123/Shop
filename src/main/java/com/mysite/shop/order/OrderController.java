@@ -5,6 +5,7 @@ import com.mysite.shop.order.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -30,7 +31,8 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderService orderService;
-
+    
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "/order")
     public @ResponseBody ResponseEntity order(@RequestBody @Valid OrderDto orderDto
             , BindingResult bindingResult, Principal principal){
@@ -58,9 +60,11 @@ public class OrderController {
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
+
     @GetMapping(value = {"/orders", "/orders/{page}"})
     public String orderHist(@PathVariable("page") Optional<Integer> page, Principal principal, Model model){
 
+    	//pageable ( 요청페이지번호, 페이지당레코드수) 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 4);
         Page<OrderHistDto> ordersHistDtoList = orderService.getOrderList(principal.getName(), pageable);
 
@@ -71,6 +75,7 @@ public class OrderController {
         return "order/orderHist";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/order/{orderId}/cancel")
     public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId , Principal principal){
 

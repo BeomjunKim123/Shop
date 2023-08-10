@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,6 +53,7 @@ public class CartController {
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/cart")
     public String orderHist(Principal principal, Model model){
     	
@@ -64,7 +66,8 @@ public class CartController {
 
     //@PatchMapping : 수정, 업데이트  
     @PatchMapping(value = "/cartItem/{cartItemId}")
-    public @ResponseBody ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, int count, Principal principal){
+    public @ResponseBody ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, 
+    		int count, Principal principal){
 
         if(count <= 0){
             return new ResponseEntity<String>("최소 1개 이상 담아주세요", HttpStatus.BAD_REQUEST);
@@ -87,11 +90,23 @@ public class CartController {
 
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
-
+    
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "/cart/orders")
     public @ResponseBody ResponseEntity orderCartItem(@RequestBody CartOrderDto cartOrderDto, Principal principal){
 
         List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
+        
+        // List 에 객체에 저장된 값을 출력 
+        /*
+        System.out.println("=================================");
+        
+        for ( int i = 0 ; i < cartOrderDtoList.size(); i++) {
+        	System.out.println(cartOrderDtoList.get(i).getCartItemId()); 
+        }
+        
+        System.out.println("================================ ");
+        */ 
         
         // client에서 넘기는 order 정보의 내용을 출력 
         for ( int i = 0 ; i < cartOrderDtoList.size() ; i++) {

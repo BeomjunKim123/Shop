@@ -99,6 +99,8 @@ public class OrderService {
         order.cancelOrder();
     }
 
+    
+    // 장바구니에서 값을 읽어와서 주문 테이블에 저장하는 메소드 
     public Long orders(List<OrderDto> orderDtoList, String email){
 
         Member member = memberRepository.findByEmail(email);
