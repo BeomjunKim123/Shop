@@ -22,6 +22,8 @@ import com.mysite.shop.item.Item;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import java.util.Optional;
 
 @Controller
@@ -30,6 +32,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model){
         model.addAttribute("itemFormDto", new ItemFormDto());
@@ -38,6 +41,7 @@ public class ItemController {
 
     
     //새 상품 등록 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "/admin/item/new")
     public String itemNew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult,
                           Model model, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList){
@@ -63,7 +67,7 @@ public class ItemController {
 
         return "redirect:/";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/admin/item/{itemId}")
     public String itemDtl(@PathVariable("itemId") Long itemId, Model model){
 
@@ -80,6 +84,7 @@ public class ItemController {
     }
 
     //제품 수정 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "/admin/item/{itemId}")
     public String itemUpdate(@Valid ItemFormDto itemFormDto, BindingResult bindingResult,
                              @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList, Model model){
@@ -103,7 +108,7 @@ public class ItemController {
 
         return "redirect:/";
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value = {"/admin/items", "/admin/items/{page}"})
     public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model){
 
@@ -117,6 +122,7 @@ public class ItemController {
         return "item/itemMng";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, @PathVariable("itemId") Long itemId){
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);

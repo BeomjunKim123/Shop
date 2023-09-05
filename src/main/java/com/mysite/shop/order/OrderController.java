@@ -60,7 +60,7 @@ public class OrderController {
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value = {"/orders", "/orders/{page}"})
     public String orderHist(@PathVariable("page") Optional<Integer> page, Principal principal, Model model){
 

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.EntityManager;
+import lombok.extern.log4j.Log4j2;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,15 +17,14 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.mysite.shop.constant.ItemSellStatus;
 import com.mysite.shop.item.ItemSearchDto;
 import com.mysite.shop.dto.MainItemDto;
-//import com.shop.dto.QMainItemDto;
 import com.mysite.shop.dto.QMainItemDto;
 
 import com.mysite.shop.item.Item;
-//import com.shop.entity.QItem;
-//import com.shop.entity.QItemImg;
 import com.mysite.shop.item.QItem;
 import com.mysite.shop.item.QItemImg;
 
+
+@Log4j2
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
 	// Query DSL 을 사용 
@@ -46,6 +46,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
     }
 
+    
+    // BooleanExpression 에 Null 이 리턴이 될경우 : 
+    
     private BooleanExpression regDtsAfter(String searchDateType){
 
         LocalDateTime dateTime = LocalDateTime.now();
@@ -85,6 +88,14 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     @Override
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
 
+    	log.info("=========ItemSearchDto 값 출력 - 시작 ==========================");
+    	log.info(itemSearchDto.getSearchDateType());
+    	log.info(itemSearchDto.getSearchSellStatus());
+    	log.info(itemSearchDto.getSearchBy());
+    	log.info(itemSearchDto.getSearchQuery());    	
+    	log.info("=========ItemSearchDto 값 출력 - 끝 ==========================");
+    	
+    	
         List<Item> content = queryFactory
                 .selectFrom(QItem.item)
                 .where(regDtsAfter(itemSearchDto.getSearchDateType()),
@@ -96,6 +107,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                 .limit(pageable.getPageSize())		//가져올 레코드수 3
                 .fetch();					// 쿼리를 적용하라. List<Item> 
 
+        //검색한 레코드 총 갯수 
         long total = queryFactory.select(Wildcard.count).from(QItem.item)
                 .where(regDtsAfter(itemSearchDto.getSearchDateType()),
                         searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
